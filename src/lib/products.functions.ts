@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 
 const productSchema = z.object({
   id: z.string().uuid().optional(), name: z.string().trim().min(2).max(120),
@@ -19,7 +21,7 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
 
 const adminEmails = new Set(["simbinikhalaza@gmail.com", "altairwebs24@gmail.com"]);
 
-const requireAdmin = async (context: { supabase: any; userId: string; claims: Record<string, unknown> }) => {
+const requireAdmin = async (context: { supabase: SupabaseClient<Database>; userId: string; claims: Record<string, unknown> }) => {
   let { data: role } = await context.supabase.from("user_roles").select("id").eq("user_id", context.userId).eq("role", "admin").maybeSingle();
   const email = typeof context.claims.email === "string" ? context.claims.email.toLowerCase() : "";
   if (!role && adminEmails.has(email)) {
