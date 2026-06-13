@@ -7,6 +7,10 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Cloudflare builds run without Lovable's internal build context, so the
+  // deployment output must be enabled explicitly. This generates the
+  // .output/server/index.mjs and .output/public paths used by Wrangler.
+  nitro: true,
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
