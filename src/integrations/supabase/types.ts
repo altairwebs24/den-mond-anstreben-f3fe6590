@@ -14,9 +14,37 @@ export type Database = {
   }
   public: {
     Tables: {
+      collections: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          published: boolean
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          published?: boolean
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          published?: boolean
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string
+          collection_id: string | null
           colors: string[]
           created_at: string
           description: string
@@ -33,6 +61,7 @@ export type Database = {
         }
         Insert: {
           category?: string
+          collection_id?: string | null
           colors?: string[]
           created_at?: string
           description?: string
@@ -49,6 +78,7 @@ export type Database = {
         }
         Update: {
           category?: string
+          collection_id?: string | null
           colors?: string[]
           created_at?: string
           description?: string
@@ -63,7 +93,15 @@ export type Database = {
           slug?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "products_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
