@@ -83,9 +83,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Shop bold South African streetwear by Den Mond Anstreben Clothing." },
       { name: "author", content: "Den Mond Anstreben Clothing" },
       { property: "og:title", content: "Den Mond Anstreben Clothing" },
-      { property: "og:description", content: "Not just clothes, a statement." },
+      { property: "og:description", content: "Shop bold South African streetwear by Den Mond Anstreben Clothing." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Den Mond Anstreben Clothing" },
+      { name: "twitter:description", content: "Shop bold South African streetwear by Den Mond Anstreben Clothing." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/08924df0-6bfd-4204-bb90-e306e63ed84e/id-preview-1204c98b--5d342c56-9a5c-43ec-bb96-11544c4efcf6.lovable.app-1781374748513.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/08924df0-6bfd-4204-bb90-e306e63ed84e/id-preview-1204c98b--5d342c56-9a5c-43ec-bb96-11544c4efcf6.lovable.app-1781374748513.png" },
     ],
     links: [
       {
