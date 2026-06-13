@@ -4,5 +4,72 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
 import { listCollections, listProducts } from "@/lib/products.functions";
-export const Route = createFileRoute("/shop")({ head: () => ({ meta: [{ title: "Shop Streetwear — Den Mond" }, { name: "description", content: "Browse Den Mond Anstreben tees and tracksuits." }, { property: "og:title", content: "Shop Den Mond Anstreben" }, { property: "og:description", content: "Statement streetwear from Matsulu." }] }), component: Shop });
-function Shop() { const { data = [], isLoading } = useQuery({ queryKey: ["products"], queryFn: () => listProducts() }); const { data: collections = [] } = useQuery({ queryKey: ["collections"], queryFn: () => listCollections() }); const [activeCollection, setActiveCollection] = useState("all"); const visibleProducts = activeCollection === "all" ? data : data.filter((product) => product.collection_id === activeCollection); return <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6"><p className="text-sm font-black uppercase tracking-[.3em] text-primary">The collection</p><h1 className="font-display mt-2 text-5xl font-black uppercase sm:text-7xl">Shop all</h1>{collections.length > 0 && <nav aria-label="Product collections" className="mt-8 flex gap-2 overflow-x-auto pb-2"><Button variant={activeCollection === "all" ? "default" : "outline"} className="shrink-0 rounded-none uppercase" onClick={() => setActiveCollection("all")}>All</Button>{collections.map((collection) => <Button key={collection.id} variant={activeCollection === collection.id ? "default" : "outline"} className="shrink-0 rounded-none uppercase" onClick={() => setActiveCollection(collection.id)}>{collection.name}</Button>)}</nav>}{isLoading ? <p className="mt-12">Loading the collection…</p> : visibleProducts.length ? <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-8">{visibleProducts.map((product) => <ProductCard key={product.id} product={product}/>)}</div> : <div className="mt-12 border-y border-border py-14"><h2 className="font-display text-2xl uppercase">No products in this collection yet.</h2><p className="mt-2 text-muted-foreground">Check back soon or message us on WhatsApp for availability.</p></div>}</div>; }
+export const Route = createFileRoute("/shop")({
+  head: () => ({
+    meta: [
+      { title: "Shop Streetwear — Den Mond" },
+      { name: "description", content: "Browse Den Mond Anstreben tees and tracksuits." },
+      { property: "og:title", content: "Shop Den Mond Anstreben" },
+      { property: "og:description", content: "Statement streetwear from Matsulu." },
+    ],
+  }),
+  component: Shop,
+});
+function Shop() {
+  const { data = [], isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => listProducts(),
+  });
+  const { data: collections = [] } = useQuery({
+    queryKey: ["collections"],
+    queryFn: () => listCollections(),
+  });
+  const [activeCollection, setActiveCollection] = useState("all");
+  const visibleProducts =
+    activeCollection === "all"
+      ? data
+      : data.filter((product) => product.collection_id === activeCollection);
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <p className="text-sm font-black uppercase tracking-[.3em] text-primary">The collection</p>
+      <h1 className="font-display mt-2 text-5xl font-black uppercase sm:text-7xl">Shop all</h1>
+      {collections.length > 0 && (
+        <nav aria-label="Product collections" className="mt-8 flex gap-2 overflow-x-auto pb-2">
+          <Button
+            variant={activeCollection === "all" ? "default" : "outline"}
+            className="shrink-0 rounded-none uppercase"
+            onClick={() => setActiveCollection("all")}
+          >
+            All
+          </Button>
+          {collections.map((collection) => (
+            <Button
+              key={collection.id}
+              variant={activeCollection === collection.id ? "default" : "outline"}
+              className="shrink-0 rounded-none uppercase"
+              onClick={() => setActiveCollection(collection.id)}
+            >
+              {collection.name}
+            </Button>
+          ))}
+        </nav>
+      )}
+      {isLoading ? (
+        <p className="mt-12">Loading the collection…</p>
+      ) : visibleProducts.length ? (
+        <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-8">
+          {visibleProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-12 border-y border-border py-14">
+          <h2 className="font-display text-2xl uppercase">No products in this collection yet.</h2>
+          <p className="mt-2 text-muted-foreground">
+            Check back soon or message us on WhatsApp for availability.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
